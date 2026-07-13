@@ -29,7 +29,7 @@ export default function EpisodeList({ episodes }: { episodes: Episode[] }) {
           <audio
             controls
             preload="none"
-            src={episode.audioUrl}
+            src={`/api/episodes/${episode.id}/audio`}
             className="mt-3 w-full"
           >
             Your browser does not support the audio element.
