@@ -32,3 +32,28 @@ export async function sendVerificationEmail(to: string, verifyUrl: string) {
     `,
   });
 }
+
+export async function sendPasswordResetEmail(to: string, resetUrl: string) {
+  if (!resend) {
+    console.log(`\n[dev email] Password reset link for ${to}:\n${resetUrl}\n`);
+    return;
+  }
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? "The Message <onboarding@resend.dev>",
+    to,
+    subject: "Reset your password — The Message",
+    html: `
+      <div style="font-family: Georgia, serif; max-width: 480px; margin: 0 auto;">
+        <h2 style="color:#4b3b2a;">The Message of the Hour</h2>
+        <p>We received a request to reset your password. If you didn't make this request, you can safely ignore this email.</p>
+        <p>
+          <a href="${resetUrl}" style="display:inline-block;background:#8a5a2c;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">
+            Reset my password
+          </a>
+        </p>
+        <p style="color:#666;font-size:13px;">This link expires in 1 hour. If the button doesn't work, copy and paste this link into your browser:<br/>${resetUrl}</p>
+      </div>
+    `,
+  });
+}
