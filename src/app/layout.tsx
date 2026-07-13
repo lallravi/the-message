@@ -20,9 +20,9 @@ const displayFont = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "The Message of the Hour",
+  title: "Themessage.app | The Message of the Hour",
   description:
-    "The Message — earnestly contending for the faith which was once delivered unto the saints.",
+    "Themessage.app — earnestly contending for the faith which was once delivered unto the saints.",
 };
 
 export default function RootLayout({

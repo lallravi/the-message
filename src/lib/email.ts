@@ -15,9 +15,9 @@ export async function sendVerificationEmail(to: string, verifyUrl: string) {
   }
 
   await resend.emails.send({
-    from: process.env.EMAIL_FROM ?? "The Message <onboarding@resend.dev>",
+    from: process.env.EMAIL_FROM ?? "Themessage.app <onboarding@resend.dev>",
     to,
-    subject: "Verify your email — The Message",
+    subject: "Verify your email — Themessage.app",
     html: `
       <div style="font-family: Georgia, serif; max-width: 480px; margin: 0 auto;">
         <h2 style="color:#4b3b2a;">The Message of the Hour</h2>
@@ -40,9 +40,9 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
   }
 
   await resend.emails.send({
-    from: process.env.EMAIL_FROM ?? "The Message <onboarding@resend.dev>",
+    from: process.env.EMAIL_FROM ?? "Themessage.app <onboarding@resend.dev>",
     to,
-    subject: "Reset your password — The Message",
+    subject: "Reset your password — Themessage.app",
     html: `
       <div style="font-family: Georgia, serif; max-width: 480px; margin: 0 auto;">
         <h2 style="color:#4b3b2a;">The Message of the Hour</h2>
