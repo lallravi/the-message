@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { auth, signOut } from "@/auth";
 import MobileMenu from "@/components/MobileMenu";
-import EagleLogo from "@/components/EagleLogo";
 
 export default async function Navbar() {
   const session = await auth();
@@ -22,7 +22,7 @@ export default async function Navbar() {
     <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5">
-          <EagleLogo size={34} />
+          <Image src="/eagle-logo.png" alt="" width={48} height={48} priority />
           <span className="font-display text-xl font-bold tracking-tight">
             Themessage.app
           </span>
