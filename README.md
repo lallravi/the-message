@@ -10,8 +10,10 @@ podcast page and an admin dashboard.
 - Prisma + Postgres
 - Resend for verification emails (falls back to logging the link to the
   console if `RESEND_API_KEY` is not set — handy for local dev)
-- Vercel Blob storage for podcast audio (falls back to local
-  `/public/uploads` for dev — see `src/lib/storage.ts`)
+- Vercel Blob storage for podcast audio, uploaded directly from the
+  browser (via `@vercel/blob/client`) so large sermon recordings don't
+  hit serverless request-size limits — requires `BLOB_READ_WRITE_TOKEN`
+  even in local dev (see `src/app/api/episodes/upload-token/route.ts`)
 
 ## Getting started (local dev)
 
