@@ -1,9 +1,22 @@
 "use server";
 
+import path from "path";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveAudioFile } from "@/lib/storage";
+
+const ALLOWED_AUDIO_EXTENSIONS = new Set([
+  ".mp3",
+  ".wav",
+  ".m4a",
+  ".aac",
+  ".ogg",
+  ".oga",
+  ".flac",
+  ".weba",
+  ".opus",
+]);
 
 export type UploadEpisodeState = {
   error?: string;
@@ -33,7 +46,11 @@ export async function uploadEpisodeAction(
   if (!(audio instanceof File) || audio.size === 0) {
     return { error: "Please choose an audio file to upload." };
   }
-  if (!audio.type.startsWith("audio/")) {
+  const hasAudioMimeType = audio.type.startsWith("audio/");
+  const hasAllowedExtension = ALLOWED_AUDIO_EXTENSIONS.has(
+    path.extname(audio.name).toLowerCase()
+  );
+  if (!hasAudioMimeType && !hasAllowedExtension) {
     return { error: "The uploaded file must be an audio file." };
   }
 
