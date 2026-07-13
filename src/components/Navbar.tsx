@@ -18,9 +18,9 @@ export default async function Navbar() {
   }
 
   return (
-    <header className="relative border-b border-border bg-background">
+    <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link href="/" className="font-serif text-lg font-semibold tracking-tight">
+        <Link href="/" className="font-display text-xl font-bold tracking-tight">
           The Message
         </Link>
 

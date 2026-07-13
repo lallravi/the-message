@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
+import { Inter, Lora, Playfair_Display } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -11,6 +11,11 @@ const bodyFont = Inter({
 
 const scriptureFont = Lora({
   variable: "--font-scripture",
+  subsets: ["latin"],
+});
+
+const displayFont = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
 });
 
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bodyFont.variable} ${scriptureFont.variable} h-full antialiased`}
+      className={`${bodyFont.variable} ${scriptureFont.variable} ${displayFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <Navbar />

@@ -6,11 +6,17 @@ export default function ScriptureQuote({
   children: React.ReactNode;
 }) {
   return (
-    <blockquote className="rounded-lg border border-border bg-background/60 p-6 shadow-sm sm:p-8">
-      <p className="font-serif text-xl italic leading-relaxed text-foreground sm:text-2xl">
-        &ldquo;{children}&rdquo;
+    <blockquote className="group relative rounded-2xl border border-border bg-background p-8 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-10">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -top-3 left-6 font-display text-7xl leading-none text-accent/20"
+      >
+        &ldquo;
+      </span>
+      <p className="relative font-serif text-xl italic leading-relaxed text-foreground sm:text-2xl">
+        {children}
       </p>
-      <footer className="mt-4 text-sm font-medium tracking-wide text-accent">
+      <footer className="mt-5 text-sm font-semibold tracking-wide text-accent">
         — {reference}
       </footer>
     </blockquote>
