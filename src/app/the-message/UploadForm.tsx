@@ -16,7 +16,11 @@ const ALLOWED_AUDIO_EXTENSIONS = new Set([
   ".opus",
 ]);
 
-export default function UploadForm() {
+export default function UploadForm({
+  existingSeries,
+}: {
+  existingSeries: string[];
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -31,6 +35,7 @@ export default function UploadForm() {
     const formData = new FormData(form);
     const title = String(formData.get("title") ?? "").trim();
     const date = String(formData.get("date") ?? "");
+    const series = String(formData.get("series") ?? "").trim();
     const fileInput = form.elements.namedItem("audio") as HTMLInputElement;
     const file = fileInput.files?.[0];
 
@@ -62,7 +67,7 @@ export default function UploadForm() {
         multipart: true,
       });
 
-      const result = await createEpisodeAction(title, date, blob.url);
+      const result = await createEpisodeAction(title, date, blob.url, series);
       if (result.error) {
         setError(result.error);
       } else {
@@ -108,6 +113,25 @@ export default function UploadForm() {
             required
             className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-accent focus:outline-none"
           />
+        </div>
+
+        <div>
+          <label htmlFor="series" className="block text-sm font-medium text-foreground">
+            Series <span className="font-normal text-foreground/50">(optional)</span>
+          </label>
+          <input
+            id="series"
+            name="series"
+            type="text"
+            list="existing-series"
+            placeholder="e.g. Faith Series"
+            className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-accent focus:outline-none"
+          />
+          <datalist id="existing-series">
+            {existingSeries.map((name) => (
+              <option key={name} value={name} />
+            ))}
+          </datalist>
         </div>
 
         <div>

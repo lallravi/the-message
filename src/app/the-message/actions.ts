@@ -12,7 +12,8 @@ export type CreateEpisodeState = {
 export async function createEpisodeAction(
   title: string,
   dateValue: string,
-  audioUrl: string
+  audioUrl: string,
+  seriesName: string
 ): Promise<CreateEpisodeState> {
   const session = await auth();
   if (!session?.user || session.user.role !== "ADMIN") {
@@ -28,12 +29,24 @@ export async function createEpisodeAction(
     return { error: "Please provide a valid date." };
   }
 
+  const trimmedSeries = seriesName.trim();
+  let seriesId: string | undefined;
+  if (trimmedSeries) {
+    const series = await prisma.series.upsert({
+      where: { name: trimmedSeries },
+      update: {},
+      create: { name: trimmedSeries },
+    });
+    seriesId = series.id;
+  }
+
   await prisma.episode.create({
     data: {
       title: trimmedTitle,
       date,
       audioUrl,
       uploadedById: session.user.id,
+      seriesId,
     },
   });
 

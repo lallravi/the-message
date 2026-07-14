@@ -103,6 +103,13 @@ model LoginEvent {
   @@index([userId])
 }
 
+model Series {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  episodes  Episode[]
+}
+
 model Episode {
   id          String   @id @default(cuid())
   title       String
@@ -111,4 +118,6 @@ model Episode {
   createdAt   DateTime @default(now())
   uploadedBy  User?    @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
   uploadedById String?
+  series      Series?  @relation(fields: [seriesId], references: [id], onDelete: SetNull)
+  seriesId    String?
 }
