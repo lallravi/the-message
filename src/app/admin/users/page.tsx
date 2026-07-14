@@ -14,6 +14,15 @@ function formatDateTime(date: Date | null) {
   });
 }
 
+function formatLocation(event: {
+  city: string | null;
+  region: string | null;
+  country: string | null;
+}) {
+  const parts = [event.city, event.region, event.country].filter(Boolean);
+  return parts.length > 0 ? parts.join(", ") : "—";
+}
+
 export default async function AdminUsersPage() {
   const session = await auth();
   if (!session?.user) {
@@ -131,6 +140,7 @@ export default async function AdminUsersPage() {
               <th className="px-4 py-3 text-left font-medium text-foreground/70">User</th>
               <th className="px-4 py-3 text-left font-medium text-foreground/70">Timestamp</th>
               <th className="px-4 py-3 text-left font-medium text-foreground/70">IP address</th>
+              <th className="px-4 py-3 text-left font-medium text-foreground/70">Location</th>
               <th className="px-4 py-3 text-left font-medium text-foreground/70">Device / user agent</th>
             </tr>
           </thead>
@@ -146,6 +156,9 @@ export default async function AdminUsersPage() {
                 <td className="whitespace-nowrap px-4 py-3">
                   {event.ipAddress ?? "—"}
                 </td>
+                <td className="whitespace-nowrap px-4 py-3">
+                  {formatLocation(event)}
+                </td>
                 <td className="max-w-xs truncate px-4 py-3" title={event.userAgent ?? undefined}>
                   {event.userAgent ?? "—"}
                 </td>
@@ -153,7 +166,7 @@ export default async function AdminUsersPage() {
             ))}
             {loginEvents.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-center text-foreground/50">
+                <td colSpan={5} className="px-4 py-6 text-center text-foreground/50">
                   No logins recorded yet.
                 </td>
               </tr>

@@ -80,6 +80,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       let ipAddress: string | null = null;
       let userAgent: string | null = null;
+      let city: string | null = null;
+      let region: string | null = null;
+      let country: string | null = null;
       try {
         const hdrs = await headers();
         userAgent = hdrs.get("user-agent");
@@ -87,6 +90,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ??
           hdrs.get("x-real-ip") ??
           null;
+        // Vercel's edge network attaches these on every production request;
+        // they're absent in local dev, so city/region/country stay null there.
+        const rawCity = hdrs.get("x-vercel-ip-city");
+        city = rawCity ? decodeURIComponent(rawCity) : null;
+        region = hdrs.get("x-vercel-ip-country-region");
+        country = hdrs.get("x-vercel-ip-country");
       } catch {
         // headers() is unavailable outside a request context — ignore.
       }
@@ -97,7 +106,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           data: { lastLoginAt: new Date() },
         }),
         prisma.loginEvent.create({
-          data: { userId: user.id, ipAddress, userAgent },
+          data: { userId: user.id, ipAddress, userAgent, city, region, country },
         }),
       ]);
     },

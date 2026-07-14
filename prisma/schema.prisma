@@ -91,6 +91,12 @@ model LoginEvent {
   timestamp DateTime @default(now())
   ipAddress String?
   userAgent String?
+  // Populated from Vercel's x-vercel-ip-* geolocation headers, present
+  // only on requests served through Vercel's production network — will
+  // be null for logins during local development.
+  city      String?
+  region    String?
+  country   String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
