@@ -43,13 +43,15 @@ export async function registerAction(
   const passwordHash = await bcrypt.hash(password, 10);
   const adminEmail = process.env.ADMIN_EMAIL;
 
+  const isAdmin = Boolean(adminEmail && email === adminEmail);
   const user = await prisma.user.create({
     data: {
       name,
       email,
       passwordHash,
       provider: "CREDENTIALS",
-      role: adminEmail && email === adminEmail ? "ADMIN" : "USER",
+      role: isAdmin ? "ADMIN" : "USER",
+      approved: isAdmin,
     },
   });
 

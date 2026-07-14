@@ -29,6 +29,16 @@ export async function GET(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Re-check approval fresh from the database — being logged in is not
+  // enough; an admin must have explicitly approved this account.
+  const requester = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true, approved: true },
+  });
+  if (!requester || (requester.role !== "ADMIN" && !requester.approved)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  }
+
   const { id } = await params;
   const episode = await prisma.episode.findUnique({ where: { id } });
   if (!episode) {

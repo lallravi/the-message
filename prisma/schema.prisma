@@ -29,6 +29,9 @@ model User {
   passwordHash  String?
   provider      AuthProvider @default(CREDENTIALS)
   role          Role      @default(USER)
+  // Admin must explicitly approve a member before they can access sermons —
+  // being logged in and email-verified is not sufficient on its own.
+  approved      Boolean   @default(false)
   lastLoginAt   DateTime?
   createdAt     DateTime  @default(now())
 
